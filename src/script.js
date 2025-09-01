@@ -1,5 +1,5 @@
-// JSON inicial
-const jogadorasIniciais = [
+// Lista inicial de jogadoras
+let jogadoras = [
   {
     nome: "Andressa Alves",
     posicao: "Meio-campo",
@@ -22,49 +22,44 @@ const jogadorasIniciais = [
   }
 ];
 
-// Inicializar LocalStorage
-function inicializarBD() {
-  if (!localStorage.getItem("jogadoras")) {
-    localStorage.setItem("jogadoras", JSON.stringify(jogadorasIniciais));
-  }
-}
-
-function getJogadoras() {
-  return JSON.parse(localStorage.getItem("jogadoras")) || [];
-}
-
-function salvarJogadoras(jogadoras) {
+// Salva no LocalStorage
+function salvar() {
   localStorage.setItem("jogadoras", JSON.stringify(jogadoras));
 }
 
-function renderJogadoras() {
-  const container = document.getElementById("jogadoras-container");
-  container.innerHTML = "";
-  const jogadoras = getJogadoras();
+// Carrega do LocalStorage
+function carregar() {
+  const dados = localStorage.getItem("jogadoras");
+  if (dados) {
+    jogadoras = JSON.parse(dados);
+  }
+}
 
-  jogadoras.forEach((j, index) => {
-    const card = document.createElement("div");
-    card.className = "card";
-
-    card.innerHTML = `
-      <img src="${j.foto}" alt="${j.nome}">
-      <h3>${j.nome}</h3>
-      <p><b>Posição:</b> ${j.posicao}</p>
-      <p><b>Clube:</b> ${j.clube}</p>
-      <p><b>Gols:</b> ${j.gols} | <b>Assistências:</b> ${j.assistencias} | <b>Jogos:</b> ${j.jogos}</p>
-      <button onclick="editarJogadora(${index})">Editar</button>
-      <button onclick="removerJogadora(${index})">Excluir</button>
-      <button onclick="toggleFavorita(${index})" class="${j.favorita ? 'favorita' : ''}">★</button>
+// Mostra as jogadoras na tela
+function mostrarJogadoras() {
+  carregar();
+  const div = document.getElementById("jogadoras-container");
+  div.innerHTML = "";
+  jogadoras.forEach((j, i) => {
+    div.innerHTML += `
+      <div class="card">
+        <img src="${j.foto}" width="100" alt="${j.nome}">
+        <b>${j.nome}</b><br>
+        <span>Posição: ${j.posicao}</span><br>
+        <span>Clube: ${j.clube}</span><br>
+        <span>Gols: ${j.gols} | Assistências: ${j.assistencias} | Jogos: ${j.jogos}</span><br>
+        <button onclick="editar(${i})">Editar</button>
+        <button onclick="remover(${i})">Excluir</button>
+        <button onclick="favorita(${i})" class="${j.favorita ? 'favorita' : ''}">${j.favorita ? "★" : "☆"}</button>
+      </div>
+      <hr>
     `;
-
-    container.appendChild(card);
   });
 }
 
-// CRUD
-function adicionarJogadora(event) {
+// Adiciona jogadora
+function adicionar(event) {
   event.preventDefault();
-
   const nome = document.getElementById("nome").value;
   const posicao = document.getElementById("posicao").value;
   const clube = document.getElementById("clube").value;
@@ -78,27 +73,26 @@ function adicionarJogadora(event) {
     return;
   }
 
-  const jogadoras = getJogadoras();
-  jogadoras.push({ nome, posicao, clube, foto, gols, assistencias, jogos, favorita: false });
-  salvarJogadoras(jogadoras);
-
+  jogadoras.push({
+    nome, posicao, clube, foto,
+    gols, assistencias, jogos,
+    favorita: false
+  });
+  salvar();
+  mostrarJogadoras();
   document.getElementById("jogadora-form").reset();
-  alert("Jogadora adicionada com sucesso!");
-  renderJogadoras();
 }
 
-function removerJogadora(index) {
-  const jogadoras = getJogadoras();
-  jogadoras.splice(index, 1);
-  salvarJogadoras(jogadoras);
-  alert("Jogadora removida com sucesso!");
-  renderJogadoras();
+// Remove jogadora
+function remover(i) {
+  jogadoras.splice(i, 1);
+  salvar();
+  mostrarJogadoras();
 }
 
-function editarJogadora(index) {
-  const jogadoras = getJogadoras();
-  const j = jogadoras[index];
-
+// Edita jogadora
+function editar(i) {
+  const j = jogadoras[i];
   document.getElementById("nome").value = j.nome;
   document.getElementById("posicao").value = j.posicao;
   document.getElementById("clube").value = j.clube;
@@ -108,45 +102,45 @@ function editarJogadora(index) {
   document.getElementById("jogos").value = j.jogos;
 
   document.getElementById("form-title").innerText = "Editar Jogadora";
-  document.querySelector("button[type='submit']").innerText = "Salvar Alterações";
-  document.getElementById("cancelar-edicao").style.display = "inline-block";
+  document.querySelector("button[type='submit']").innerText = "Salvar";
+  document.getElementById("cancelar-edicao").style.display = "inline";
 
   document.getElementById("jogadora-form").onsubmit = function(e) {
     e.preventDefault();
-    jogadoras[index] = {
-      nome: nome.value,
-      posicao: posicao.value,
-      clube: clube.value,
-      foto: foto.value,
-      gols: gols.value,
-      assistencias: assistencias.value,
-      jogos: jogos.value,
+    jogadoras[i] = {
+      nome: document.getElementById("nome").value,
+      posicao: document.getElementById("posicao").value,
+      clube: document.getElementById("clube").value,
+      foto: document.getElementById("foto").value,
+      gols: document.getElementById("gols").value,
+      assistencias: document.getElementById("assistencias").value,
+      jogos: document.getElementById("jogos").value,
       favorita: j.favorita
     };
-    salvarJogadoras(jogadoras);
-    alert("Jogadora editada com sucesso!");
-    resetForm();
-    renderJogadoras();
+    salvar();
+    mostrarJogadoras();
+    resetarForm();
   };
 }
 
-function toggleFavorita(index) {
-  const jogadoras = getJogadoras();
-  jogadoras[index].favorita = !jogadoras[index].favorita;
-  salvarJogadoras(jogadoras);
-  renderJogadoras();
+// Marca como favorita
+function favorita(i) {
+  jogadoras[i].favorita = !jogadoras[i].favorita;
+  salvar();
+  mostrarJogadoras();
 }
 
-function resetForm() {
+// Reseta o formulário
+function resetarForm() {
   document.getElementById("jogadora-form").reset();
   document.getElementById("form-title").innerText = "Adicionar Jogadora";
   document.querySelector("button[type='submit']").innerText = "Cadastrar";
   document.getElementById("cancelar-edicao").style.display = "none";
-  document.getElementById("jogadora-form").onsubmit = adicionarJogadora;
+  document.getElementById("jogadora-form").onsubmit = adicionar;
 }
 
-// Inicializar
-inicializarBD();
-renderJogadoras();
-document.getElementById("jogadora-form").onsubmit = adicionarJogadora;
-document.getElementById("cancelar-edicao").onclick = resetForm;
+// Inicialização
+carregar();
+mostrarJogadoras();
+document.getElementById("jogadora-form").onsubmit = adicionar;
+document.getElementById("cancelar-edicao").onclick = resetarForm;
