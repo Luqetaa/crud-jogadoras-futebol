@@ -50,9 +50,8 @@ function mostrarJogadoras() {
         <span>Gols: ${j.gols} | Assistências: ${j.assistencias} | Jogos: ${j.jogos}</span><br>
         <button onclick="editar(${i})">Editar</button>
         <button onclick="remover(${i})">Excluir</button>
-        <button onclick="favorita(${i})" class="${j.favorita ? 'favorita' : ''}">${j.favorita ? "★" : "☆"}</button>
+        <button onclick="favorita(${i})" class="${j.favorita ? 'favorita' : ''}">${j.favorita ? "❤️" : "🤍"}</button>
       </div>
-      <hr>
     `;
   });
 }

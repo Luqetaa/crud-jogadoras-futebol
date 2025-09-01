@@ -92,6 +92,11 @@ button[type="submit"] {
   color: white;
 }
 
+button {
+  background:rgb(91, 40, 167);
+  color: white;
+}
+
 #cancelar-edicao {
   background: #dc3545;
   color: white;
@@ -100,9 +105,10 @@ button[type="submit"] {
 /* LISTAGEM DE JOGADORAS */
 #jogadoras-container {
   display: grid;
-  grid-template-columns: 1fr; /* MOBILE: 1 card por linha */
+  grid-template-columns: 400px; 
   gap: 15px;
   margin-top: 20px;
+  justify-content: center;
 }
 
 .card {
@@ -156,8 +162,8 @@ button[type="submit"] {
   font-size: 20px;
 }
 
-.favorita {
-  color: gold;
+.favorita:hover {
+  box-shadow: #dc3545;
 }
 
 
