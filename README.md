@@ -18,9 +18,9 @@ Use os botões para editar, excluir ou favoritar jogadoras.
 ## Estrutura dos arquivos:
 crud-jogadoras-futebol/   
 │  
-├── README.md                
-└── src/  
-&nbsp;&nbsp;&nbsp;&nbsp;  ├── index.html             
+├── README.md   
+├── index.html                
+└── src/   
 &nbsp;&nbsp;&nbsp;&nbsp;  ├── style.css              
 &nbsp;&nbsp;&nbsp;&nbsp;  └── script.js            
 
