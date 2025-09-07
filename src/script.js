@@ -1,4 +1,3 @@
-// Lista inicial de jogadoras
 let jogadoras = [
   {
     nome: "Andressa Alves",
@@ -22,12 +21,10 @@ let jogadoras = [
   }
 ];
 
-// Salva no LocalStorage
 function salvar() {
   localStorage.setItem("jogadoras", JSON.stringify(jogadoras));
 }
 
-// Carrega do LocalStorage
 function carregar() {
   const dados = localStorage.getItem("jogadoras");
   if (dados) {
@@ -35,7 +32,6 @@ function carregar() {
   }
 }
 
-// Mostra as jogadoras na tela
 function mostrarJogadoras() {
   carregar();
   const div = document.getElementById("jogadoras-container");
@@ -43,8 +39,8 @@ function mostrarJogadoras() {
   jogadoras.forEach((j, i) => {
     div.innerHTML += `
       <div class="card">
-        <img src="${j.foto}" width="100" alt="${j.nome}">
-        <b>${j.nome}</b><br>
+        <img src="${j.foto}">
+        <h3>${j.nome}</h3><br>
         <span>Posição: ${j.posicao}</span><br>
         <span>Clube: ${j.clube}</span><br>
         <span>Gols: ${j.gols} | Assistências: ${j.assistencias} | Jogos: ${j.jogos}</span><br>
@@ -56,7 +52,6 @@ function mostrarJogadoras() {
   });
 }
 
-// Adiciona jogadora
 function adicionar(event) {
   event.preventDefault();
   const nome = document.getElementById("nome").value;
@@ -82,14 +77,12 @@ function adicionar(event) {
   document.getElementById("jogadora-form").reset();
 }
 
-// Remove jogadora
 function remover(i) {
   jogadoras.splice(i, 1);
   salvar();
   mostrarJogadoras();
 }
 
-// Edita jogadora
 function editar(i) {
   const j = jogadoras[i];
   document.getElementById("nome").value = j.nome;
@@ -122,14 +115,12 @@ function editar(i) {
   };
 }
 
-// Marca como favorita
 function favorita(i) {
   jogadoras[i].favorita = !jogadoras[i].favorita;
   salvar();
   mostrarJogadoras();
 }
 
-// Reseta o formulário
 function resetarForm() {
   document.getElementById("jogadora-form").reset();
   document.getElementById("form-title").innerText = "Adicionar Jogadora";
@@ -138,7 +129,6 @@ function resetarForm() {
   document.getElementById("jogadora-form").onsubmit = adicionar;
 }
 
-// Inicialização
 carregar();
 mostrarJogadoras();
 document.getElementById("jogadora-form").onsubmit = adicionar;
