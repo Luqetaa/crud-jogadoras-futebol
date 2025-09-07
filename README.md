@@ -13,7 +13,9 @@ Interface responsiva e moderna.
 ## Como usar: 
 Abra o arquivo index.html em seu navegador.  
 Preencha o formulário para cadastrar uma jogadora.  
-Use os botões para editar, excluir ou favoritar jogadoras.
+Use os botões para editar, excluir ou favoritar jogadoras.  
+Ou acesse pelo Github pages:  
+[Site no GitHub Pages](https://luqetaa.github.io/crud-jogadoras-futebol/)
 
 ## Estrutura dos arquivos:
 crud-jogadoras-futebol/   
