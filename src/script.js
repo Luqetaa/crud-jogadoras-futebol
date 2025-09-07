@@ -74,6 +74,7 @@ function adicionar(event) {
   });
   salvar();
   mostrarJogadoras();
+  alert("Jogadora adicionada com sucesso!");
   document.getElementById("jogadora-form").reset();
 }
 
@@ -81,6 +82,7 @@ function remover(i) {
   jogadoras.splice(i, 1);
   salvar();
   mostrarJogadoras();
+  alert("Jogadora removida com sucesso!");
 }
 
 function editar(i) {
@@ -111,6 +113,7 @@ function editar(i) {
     };
     salvar();
     mostrarJogadoras();
+    alert("Jogadora editada com sucesso!");
     resetarForm();
   };
 }
